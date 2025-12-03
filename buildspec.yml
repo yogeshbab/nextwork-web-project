@@ -1,27 +1,11 @@
 version: 0.2
-
 phases:
   install:
-    runtime-versions:
-      java: corretto8
-
-  pre_build:
     commands:
-      - echo "No CodeArtifact needed — using GitHub source"
-      - echo "Installing dependencies..."
-
+      - npm install
   build:
     commands:
-      - echo Build started on `date`
-      - mvn clean install
-
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - mvn package
-
+      - echo "Build completed"
 artifacts:
   files:
-    - target/*.war
-  discard-paths: no
-
+    - '**/*'
