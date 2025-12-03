@@ -3,13 +3,13 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "No dependencies required"
+      - echo "Skipping Node installation"
   build:
     commands:
-      - echo "Building Static Website..."
+      - echo "Static Web Project - No build step needed"
   post_build:
     commands:
-      - echo "Build Completed Successfully"
+      - echo "Build Complete"
 
 artifacts:
   files:
