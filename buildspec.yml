@@ -1,16 +1,17 @@
-version: 0.2
+version: 0.0
+os: linux
 
-phases:
-  install:
-    commands:
-      - echo "Skipping Node installation"
-  build:
-    commands:
-      - echo "Static Web Project - No build step needed"
-  post_build:
-    commands:
-      - echo "Build Complete"
+files:
+  - source: target/nextwork-web-project.war
+    destination: /opt/tomcat/webapps/
 
-artifacts:
-  files:
-    - '**/*'
+hooks:
+  BeforeInstall:
+    - location: scripts/stop_tomcat.sh
+      timeout: 300
+      runas: root
+
+  AfterInstall:
+    - location: scripts/start_tomcat.sh
+      timeout: 300
+      runas: root
