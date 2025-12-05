@@ -1,9 +1,21 @@
-version: 0.0
+version: 0.2
+
 os: linux
 
-files:
-  - source: target/nextwork-web-project.war
-    destination: /opt/tomcat/webapps/
+phases:
+  install:
+    runtime-versions:
+      java: corretto11  # Or whichever Java version you need
+  build:
+    commands:
+      - echo "Build phase: nothing to do if WAR is already built"
+  post_build:
+    commands:
+      - echo "Post-build phase complete"
+
+artifacts:
+  files:
+    - target/nextwork-web-project.war
 
 hooks:
   BeforeInstall:
@@ -15,3 +27,4 @@ hooks:
     - location: scripts/start_tomcat.sh
       timeout: 300
       runas: root
+
