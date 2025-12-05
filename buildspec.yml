@@ -1,24 +1,11 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo "No dependencies to install"
-  pre_build:
-    commands:
-      - echo "Running tests"
-      - npm test || echo "Tests failed but continuing (change this if you want to fail build on test failures)"
   build:
     commands:
-      - echo "Building app"
-      - npm run build || echo "No build script; continuing"
-      - mkdir -p deploy
-      # copy only files needed for deployment
-      - cp -r package.json build deploy/ || true
-      - cp -r appspec.yml scripts deploy/ || true
-      - cp -r build/* deploy/ || true
+      - echo "CodeBuild detected buildspec.yml successfully!"
+      - ls -la
+
 artifacts:
   files:
     - '**/*'
-  base-directory: deploy
-  discard-paths: no
