@@ -1,30 +1,27 @@
 version: 0.2
 
-os: linux
-
 phases:
   install:
     runtime-versions:
-      java: corretto11  # Or whichever Java version you need
+      nodejs: 18
+    commands:
+      - echo "Installing dependencies"
+      - npm ci
+  pre_build:
+    commands:
+      - echo "Running tests"
+      - npm test || echo "Tests failed but continuing (change this if you want to fail build on test failures)"
   build:
     commands:
-      - echo "Build phase: nothing to do if WAR is already built"
-  post_build:
-    commands:
-      - echo "Post-build phase complete"
-
+      - echo "Building app"
+      - npm run build || echo "No build script; continuing"
+      - mkdir -p deploy
+      # copy only files needed for deployment
+      - cp -r package.json build deploy/ || true
+      - cp -r appspec.yml scripts deploy/ || true
+      - cp -r build/* deploy/ || true
 artifacts:
   files:
-    - target/nextwork-web-project.war
-
-hooks:
-  BeforeInstall:
-    - location: scripts/stop_tomcat.sh
-      timeout: 300
-      runas: root
-
-  AfterInstall:
-    - location: scripts/start_tomcat.sh
-      timeout: 300
-      runas: root
-
+    - '**/*'
+  base-directory: deploy
+  discard-paths: no
